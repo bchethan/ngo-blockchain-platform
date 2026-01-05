@@ -1,0 +1,98 @@
+.register-ngo-page {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+.not-connected {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.not-connected h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.not-connected p {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}
+
+.register-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.success-message {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    padding: 1.5rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    text-align: center;
+}
+
+.success-message h3 {
+    color: var(--success);
+    margin-bottom: 0.5rem;
+}
+
+.success-message p {
+    color: var(--text-secondary);
+}
+
+.help-text {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.wallet-info {
+    padding: 1rem;
+    background: var(--surface-light);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    word-break: break-all;
+}
+
+.wallet-info strong {
+    color: var(--text-primary);
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.demo-notice {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+    border: 2px solid var(--primary-color);
+    border-radius: 0.75rem;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0 2rem;
+    text-align: center;
+}
+
+.demo-notice p {
+    color: var(--text-primary);
+    margin: 0;
+    font-size: 1rem;
+}
+
+.demo-notice strong {
+    color: var(--primary-color);
+}

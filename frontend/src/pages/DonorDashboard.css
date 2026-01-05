@@ -1,0 +1,63 @@
+.donor-dashboard {
+    padding: 2rem 0 4rem;
+    width: 100%;
+}
+
+.donate-form {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.donate-form select {
+    cursor: pointer;
+}
+
+.donations-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.donation-card {
+    padding: 1.5rem;
+}
+
+.donation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.donation-header h4 {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.donation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.tx-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+}
+
+.tx-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}

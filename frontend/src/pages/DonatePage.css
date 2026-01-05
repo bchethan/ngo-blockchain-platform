@@ -1,0 +1,77 @@
+.donate-page {
+    padding: 2rem 0 4rem;
+    width: 100%;
+}
+
+.donate-form-page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2.5rem;
+}
+
+.ngo-preview {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--surface-light);
+    border-color: var(--primary-color);
+}
+
+.ngo-preview h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.ngo-preview p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.ngo-details a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.ngo-details a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.btn-large {
+    width: 100%;
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
+
+.help-text {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 2rem;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .donate-form-page {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,97 @@
+.ngo-dashboard {
+    padding: 2rem 0;
+    min-height: calc(100vh - 200px);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.expenditure-form {
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.expenditures-list,
+.donations-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.expenditure-card,
+.donation-card {
+    padding: 1.5rem;
+}
+
+.expenditure-header,
+.donation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.expenditure-header h4 {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+}
+
+.amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.message {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 0.5rem 0;
+}
+
+.not-registered {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.not-registered h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.not-registered p {
+    color: var(--text-secondary);
+}

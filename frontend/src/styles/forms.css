@@ -1,0 +1,55 @@
+.form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+}
+
+/* Ensure all dashboard pages have proper spacing */
+.admin-dashboard,
+.ngo-dashboard,
+.donor-dashboard,
+.register-ngo-page,
+.ngo-list-page {
+    padding: 2rem 0 4rem;
+    width: 100%;
+}
+
+/* Prevent any page from using fixed heights that break scrolling */
+.page-container {
+    width: 100%;
+    min-height: auto;
+}
+
+/* Ensure stats grids don't break layout */
+.stats-grid {
+    margin-bottom: 2rem;
+}
+
+/* Dashboard sections should stack naturally */
+.dashboard-section {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.section-header {
+    margin-bottom: 1.5rem;
+}
