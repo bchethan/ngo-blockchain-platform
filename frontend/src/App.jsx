@@ -19,6 +19,13 @@ function App() {
   useEffect(() => {
     // Check if wallet is already connected
     const checkWalletConnection = async () => {
+      // Check for persistent demo mode wallet first
+      const demoWallet = localStorage.getItem('demo_wallet_address');
+      if (demoWallet) {
+        setAccount(demoWallet);
+        return;
+      }
+
       if (typeof window.ethereum !== 'undefined') {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });

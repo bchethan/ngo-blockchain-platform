@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { donate } from '../services/mockBlockchainService';
 import { donorAPI } from '../services/apiService';
-import { dummyNGOs } from '../data/dummyNGOs';
 import './DonatePage.css';
 
 const DonatePage = ({ account }) => {
@@ -23,14 +22,10 @@ const DonatePage = ({ account }) => {
       // Try to load from backend
       const response = await fetch('http://localhost:5000/api/admin/ngos/verified');
       const backendNGOs = await response.json();
-      
-      // Combine backend NGOs with dummy NGOs (dummy NGOs as fallback)
-      const allNGOs = backendNGOs.length > 0 ? backendNGOs : dummyNGOs;
-      setVerifiedNGOs(allNGOs);
+      setVerifiedNGOs(backendNGOs);
     } catch (error) {
-      console.error('Failed to load NGOs, using dummy data:', error);
-      // Use dummy NGOs if backend fails
-      setVerifiedNGOs(dummyNGOs);
+      console.error('Failed to load NGOs from backend:', error);
+      setVerifiedNGOs([]);
     } finally {
       setLoading(false);
     }

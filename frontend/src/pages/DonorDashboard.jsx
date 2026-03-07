@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { donorAPI, ngoAPI } from '../services/apiService';
-import { donate, getDonationsByDonor } from '../services/blockchainService';
+import { donate, getDonationsByDonor } from '../services/mockBlockchainService';
 import './DonorDashboard.css';
 
 const DonorDashboard = ({ account }) => {

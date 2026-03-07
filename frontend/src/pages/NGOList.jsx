@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { adminAPI } from '../services/apiService';
-import { dummyNGOs } from '../data/dummyNGOs';
 import './NGOList.css';
 
 const NGOList = () => {
@@ -15,13 +14,10 @@ const NGOList = () => {
   const loadNGOs = async () => {
     try {
       const response = await adminAPI.getVerifiedNGOs();
-      const backendNGOs = response.data;
-      // Use backend NGOs if available, otherwise use dummy data
-      setNgos(backendNGOs.length > 0 ? backendNGOs : dummyNGOs);
+      setNgos(response.data);
     } catch (error) {
-      console.error('Failed to load NGOs, using dummy data:', error);
-      // Use dummy NGOs if backend fails
-      setNgos(dummyNGOs);
+      console.error('Failed to load NGOs from backend:', error);
+      setNgos([]);
     } finally {
       setLoading(false);
     }

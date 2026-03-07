@@ -9,17 +9,22 @@ const generateFakeTxHash = () => {
   ).join('');
 };
 
-// Generate fake wallet address
+// Generate fake wallet address or retrieve from storage
 export const generateFakeWalletAddress = () => {
-  return '0x' + Array.from({ length: 40 }, () => 
+  const stored = localStorage.getItem('demo_wallet_address');
+  if (stored) return stored;
+  
+  const newAddress = '0x' + Array.from({ length: 40 }, () => 
     Math.floor(Math.random() * 16).toString(16)
   ).join('');
+  localStorage.setItem('demo_wallet_address', newAddress);
+  return newAddress;
 };
 
 // Mock wallet connection
 export const connectWallet = async () => {
   if (DEMO_MODE) {
-    // Return a fake wallet address
+    // Return a locally persistent fake wallet address
     const fakeAddress = generateFakeWalletAddress();
     console.log('🎭 DEMO MODE: Connected with fake wallet:', fakeAddress);
     return fakeAddress;

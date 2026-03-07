@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminAPI } from '../services/apiService';
-import { verifyNGO as verifyNGOBlockchain } from '../services/blockchainService';
+import { verifyNGO as verifyNGOBlockchain } from '../services/mockBlockchainService';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {

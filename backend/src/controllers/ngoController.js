@@ -23,6 +23,7 @@ const registerNGO = async (req, res) => {
       phone,
       website,
       ipfsDocHash,
+      isVerified: req.body.isVerified !== undefined ? req.body.isVerified : false
     });
 
     await ngo.save();
