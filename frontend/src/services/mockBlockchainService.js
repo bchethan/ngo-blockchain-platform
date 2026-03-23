@@ -21,6 +21,13 @@ export const generateFakeWalletAddress = () => {
   return newAddress;
 };
 
+// Generate a strictly fresh wallet address, never retrieved from storage
+export const generateFreshWalletAddress = () => {
+  return '0x' + Array.from({ length: 40 }, () => 
+    Math.floor(Math.random() * 16).toString(16)
+  ).join('');
+};
+
 // Mock wallet connection
 export const connectWallet = async () => {
   if (DEMO_MODE) {

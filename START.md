@@ -45,7 +45,6 @@ Open a **new terminal** and run:
 
 ```bash
 cd c:\ngo-blockchain-platform\backend
-npm install
 npm start
 ```
 
@@ -59,7 +58,6 @@ Open a **new terminal** and run:
 
 ```bash
 cd c:\ngo-blockchain-platform\frontend
-npm install
 npm run dev
 ```
 

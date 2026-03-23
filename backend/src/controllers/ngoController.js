@@ -14,6 +14,7 @@ const registerNGO = async (req, res) => {
     }
 
     // Create NGO
+    console.log(`[Backend Log] Attempting to save NGO for wallet: ${walletAddress}`);
     const ngo = new NGO({
       walletAddress: walletAddress.toLowerCase(),
       name,
@@ -27,6 +28,7 @@ const registerNGO = async (req, res) => {
     });
 
     await ngo.save();
+    console.log(`[Backend Log] Successfully saved NGO in MongoDB: ${ngo._id}`);
 
     // Create user entry
     const user = new User({

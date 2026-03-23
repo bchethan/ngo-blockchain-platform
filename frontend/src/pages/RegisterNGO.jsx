@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { registerNGO, generateFakeWalletAddress } from '../services/mockBlockchainService';
+import { DEMO_MODE, registerNGO, generateFreshWalletAddress } from '../services/mockBlockchainService';
 import { ngoAPI } from '../services/apiService';
 import './RegisterNGO.css';
 
@@ -19,8 +19,9 @@ const RegisterNGO = ({ account }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // In demo mode, generate a fake wallet address if no account
-    const walletAddress = account || generateFakeWalletAddress();
+    // In demo mode, generate a strictly fresh wallet address for the NGO (avoid reusing donor wallet)
+    const walletAddress = DEMO_MODE ? generateFreshWalletAddress() : account;
+    console.log("Registering NGO with wallet address:", walletAddress);
 
     setLoading(true);
     try {
@@ -32,15 +33,12 @@ const RegisterNGO = ({ account }) => {
         formData.ipfsDocHash || 'QmDefault'
       );
 
-      // Try to register in backend (optional in demo mode)
-      try {
-        await ngoAPI.register({
-          walletAddress: walletAddress,
-          ...formData
-        });
-      } catch (backendError) {
-        console.log('Backend registration failed (demo mode OK):', backendError);
-      }
+      // Try to register in backend
+      // We no longer swallow this error. If backend fails, the whole submission fails.
+      await ngoAPI.register({
+        walletAddress: walletAddress,
+        ...formData
+      });
 
       setSuccess(true);
       alert('NGO registered successfully! 🎉\nWallet: ' + walletAddress + '\n\nIn demo mode, your NGO is automatically verified.');
@@ -55,7 +53,8 @@ const RegisterNGO = ({ account }) => {
       });
     } catch (error) {
       console.error('Failed to register NGO:', error);
-      alert('Failed to register NGO: ' + error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      alert('Failed to register NGO: ' + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -182,7 +181,7 @@ const RegisterNGO = ({ account }) => {
           </div>
 
           <div className="wallet-info">
-            <strong>Registering with:</strong> {account || '🎭 Auto-generated demo wallet'}
+            <strong>Registering with:</strong> {DEMO_MODE ? '🎭 Auto-generated fresh wallet' : account}
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
