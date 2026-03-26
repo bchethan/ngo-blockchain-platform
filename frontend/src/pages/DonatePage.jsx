@@ -5,27 +5,36 @@ import './DonatePage.css';
 
 const DonatePage = ({ account }) => {
   const [verifiedNGOs, setVerifiedNGOs] = useState([]);
+  const [donors, setDonors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [donateForm, setDonateForm] = useState({
+    donorId: '',
     ngoAddress: '',
     amount: '',
     message: ''
   });
   const [submitting, setSubmitting] = useState(false);
+  const [showCreateDonor, setShowCreateDonor] = useState(false);
+  const [newDonorForm, setNewDonorForm] = useState({ name: '', email: '' });
+  const [creatingDonor, setCreatingDonor] = useState(false);
 
   useEffect(() => {
-    loadNGOs();
+    loadData();
   }, []);
 
-  const loadNGOs = async () => {
+  const loadData = async () => {
     try {
-      // Try to load from backend
-      const response = await fetch('http://localhost:5000/api/admin/ngos/verified');
-      const backendNGOs = await response.json();
-      setVerifiedNGOs(backendNGOs);
+      setLoading(true);
+      const [ngosRes, donorsRes] = await Promise.all([
+        fetch('http://localhost:5000/api/admin/ngos/verified').then(r => r.json()),
+        donorAPI.getAllDonors().then(r => r.data)
+      ]);
+      setVerifiedNGOs(ngosRes);
+      setDonors(donorsRes);
     } catch (error) {
-      console.error('Failed to load NGOs from backend:', error);
+      console.error('Failed to load data:', error);
       setVerifiedNGOs([]);
+      setDonors([]);
     } finally {
       setLoading(false);
     }
@@ -44,7 +53,8 @@ const DonatePage = ({ account }) => {
       // Donate on blockchain (mock in demo mode)
       const tx = await donate(donateForm.ngoAddress, donateForm.message, donateForm.amount);
       
-      // Try to record in backend (optional in demo mode)
+      // Try to record in backend
+      const selectedNgoObj = verifiedNGOs.find(n => n.walletAddress === donateForm.ngoAddress);
       try {
         await donorAPI.recordDonation({
           donor: account,
@@ -52,14 +62,16 @@ const DonatePage = ({ account }) => {
           amount: donateForm.amount,
           message: donateForm.message,
           transactionHash: tx.hash,
-          blockNumber: tx.blockNumber
+          blockNumber: tx.blockNumber,
+          donorId: donateForm.donorId,
+          ngoId: selectedNgoObj ? selectedNgoObj._id : undefined
         });
       } catch (backendError) {
         console.log('Backend recording failed (demo mode OK):', backendError);
       }
       
       alert('Donation successful! 🎉\nTransaction Hash: ' + tx.hash);
-      setDonateForm({ ngoAddress: '', amount: '', message: '' });
+      setDonateForm({ donorId: '', ngoAddress: '', amount: '', message: '' });
     } catch (error) {
       console.error('Failed to donate:', error);
       alert('Failed to donate: ' + error.message);
@@ -83,8 +95,27 @@ const DonatePage = ({ account }) => {
     );
   }
 
+  const handleCreateDonor = async (e) => {
+    e.preventDefault();
+    setCreatingDonor(true);
+    try {
+      const { data } = await donorAPI.createDonor(newDonorForm);
+      setDonors([data, ...donors]);
+      setDonateForm({ ...donateForm, donorId: data._id });
+      setShowCreateDonor(false);
+      setNewDonorForm({ name: '', email: '' });
+      alert('Donor profile created successfully!');
+    } catch (error) {
+      console.error('Failed to create donor:', error);
+      const errorMessage = error.response?.data?.message || error.message;
+      alert(`Failed to create donor profile: ${errorMessage}`);
+    } finally {
+      setCreatingDonor(false);
+    }
+  };
+
   if (loading) {
-    return <div className="loading">Loading NGOs...</div>;
+    return <div className="loading">Loading Data...</div>;
   }
 
   return (
@@ -96,6 +127,65 @@ const DonatePage = ({ account }) => {
         </div>
 
         <form className="donate-form-page card" onSubmit={handleDonate}>
+          <div className="form-group">
+            <label>Select Donor *</label>
+            <div className="donor-select-header" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <select
+                className="input"
+                style={{ flex: 1 }}
+                value={donateForm.donorId}
+                onChange={(e) => setDonateForm({ ...donateForm, donorId: e.target.value })}
+                required
+              >
+                <option value="">-- Choose your Donor Profile --</option>
+                {donors.map((donor) => (
+                  <option key={donor._id} value={donor._id}>
+                    {donor.name} {donor.email ? `(${donor.email})` : ''}
+                  </option>
+                ))}
+              </select>
+              <button 
+                type="button" 
+                className="btn btn-secondary"
+                onClick={() => setShowCreateDonor(!showCreateDonor)}
+              >
+                {showCreateDonor ? 'Cancel' : 'New Donor'}
+              </button>
+            </div>
+          </div>
+
+          {showCreateDonor && (
+            <div className="create-donor-section" style={{ background: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+              <h4>Register New Donor</h4>
+              <div className="form-group">
+                <input 
+                  type="text" 
+                  className="input" 
+                  style={{ marginBottom: '10px' }}
+                  placeholder="Donor Name" 
+                  value={newDonorForm.name}
+                  onChange={(e) => setNewDonorForm({ ...newDonorForm, name: e.target.value })}
+                />
+                <input 
+                  type="email" 
+                  className="input" 
+                  style={{ marginBottom: '10px' }}
+                  placeholder="Email (Optional)" 
+                  value={newDonorForm.email}
+                  onChange={(e) => setNewDonorForm({ ...newDonorForm, email: e.target.value })}
+                />
+                <button 
+                  type="button" 
+                  className="btn btn-primary btn-sm"
+                  onClick={handleCreateDonor}
+                  disabled={creatingDonor || !newDonorForm.name}
+                >
+                  {creatingDonor ? 'Creating...' : 'Register'}
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="form-group">
             <label>Select NGO *</label>
             <select

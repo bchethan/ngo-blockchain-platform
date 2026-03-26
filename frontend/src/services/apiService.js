@@ -28,6 +28,9 @@ export const ngoAPI = {
 export const donorAPI = {
   recordDonation: (data) => api.post('/donor/donate', data),
   getDonations: (walletAddress) => api.get(`/donor/${walletAddress}/donations`),
+  createDonor: (data) => api.post('/donor/create', data),
+  getAllDonors: () => api.get('/donor/all'),
+  getTransactions: (donorId) => api.get(`/donor/${donorId}/transactions`),
 };
 
 export default api;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ngoAPI } from '../services/apiService';
-import { recordExpenditure, getExpendituresByNGO } from '../services/mockBlockchainService';
+import { recordExpenditure, getExpendituresByNGO } from '../services/blockchainService';
 import './NGODashboard.css';
 
 const NGODashboard = ({ account }) => {
