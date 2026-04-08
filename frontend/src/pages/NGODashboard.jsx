@@ -16,6 +16,39 @@ const NGODashboard = ({ account }) => {
     ipfsHash: ''
   });
 
+  // Viewer State
+  const [viewerNGOs, setViewerNGOs] = useState([]);
+  const [selectedViewerNgoId, setSelectedViewerNgoId] = useState('');
+  const [viewerDonations, setViewerDonations] = useState([]);
+  const [loadingViewerDonations, setLoadingViewerDonations] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/admin/ngos/verified')
+      .then(res => res.json())
+      .then(data => setViewerNGOs(data))
+      .catch(err => console.error('Failed to load viewer NGOs:', err));
+  }, []);
+
+  useEffect(() => {
+    if (!selectedViewerNgoId) {
+      setViewerDonations([]);
+      return;
+    }
+    const fetchDonations = async () => {
+      setLoadingViewerDonations(true);
+      try {
+        const response = await fetch(`http://localhost:5000/api/donations/ngo/${selectedViewerNgoId}`);
+        const data = await response.json();
+        setViewerDonations(data);
+      } catch (error) {
+        console.error('Failed to load viewer donations:', error);
+      } finally {
+        setLoadingViewerDonations(false);
+      }
+    };
+    fetchDonations();
+  }, [selectedViewerNgoId]);
+
   useEffect(() => {
     if (account) {
       loadData();
@@ -63,6 +96,54 @@ const NGODashboard = ({ account }) => {
   const totalDonations = donations.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
   const totalExpenditures = expenditures.reduce((sum, e) => sum + parseFloat(e.amount || 0), 0);
 
+  const renderDonationViewer = () => (
+    <section className="dashboard-section" style={{ background: '#3a6fa3ff', padding: '20px', borderRadius: '8px', marginBottom: '30px' }}>
+      <h2>Public NGO Donation Viewer</h2>
+      <div className="form-group">
+        <label>Select NGO</label>
+        <select 
+          className="input" 
+          value={selectedViewerNgoId}
+          onChange={(e) => setSelectedViewerNgoId(e.target.value)}
+        >
+          <option value="">-- Choose an NGO to view donations --</option>
+          {viewerNGOs.map(n => <option key={n._id} value={n._id}>{n.name}</option>)}
+        </select>
+      </div>
+      
+      {selectedViewerNgoId && (
+        <div className="viewer-results" style={{ marginTop: '20px' }}>
+          {loadingViewerDonations ? (
+            <p>Loading donations...</p>
+          ) : viewerDonations.length === 0 ? (
+            <p>No donations found</p>
+          ) : (
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Donor Name</th>
+                    <th>Amount (ETH)</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {viewerDonations.map((d, i) => (
+                    <tr key={i}>
+                      <td>{d.donorId ? d.donorId.name : 'Legacy Donor'}</td>
+                      <td>{d.amount}</td>
+                      <td>{new Date(d.timestamp).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
@@ -71,9 +152,11 @@ const NGODashboard = ({ account }) => {
     return (
       <div className="ngo-dashboard">
         <div className="container">
+          {renderDonationViewer()}
+          <hr style={{ margin: '40px 0', border: 'none', borderTop: '1px solid #ddd' }} />
           <div className="not-registered">
             <h2>NGO Not Registered</h2>
-            <p>Please register your NGO first.</p>
+            <p>Please register your NGO first to unlock standard dashboard features.</p>
           </div>
         </div>
       </div>
@@ -83,6 +166,8 @@ const NGODashboard = ({ account }) => {
   return (
     <div className="ngo-dashboard">
       <div className="container">
+        {renderDonationViewer()}
+        <hr style={{ margin: '40px 0', border: 'none', borderTop: '1px solid #ddd' }} />
         <div className="profile-header">
           <h1>{ngoProfile.name}</h1>
           {ngoProfile.isVerified ? (

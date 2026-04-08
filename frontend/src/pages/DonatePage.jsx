@@ -155,7 +155,7 @@ const DonatePage = ({ account }) => {
           </div>
 
           {showCreateDonor && (
-            <div className="create-donor-section" style={{ background: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+            <div className="create-donor-section" style={{ background: '#2b83dbff', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
               <h4>Register New Donor</h4>
               <div className="form-group">
                 <input 

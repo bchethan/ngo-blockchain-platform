@@ -193,7 +193,7 @@ const AdminDashboard = () => {
 
         {selectedDonor && (
           <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-            <div className="modal-content card" style={{ background: '#fff', padding: '20px', borderRadius: '8px', minWidth: '400px', maxWidth: '80%' }}>
+            <div className="modal-content card" style={{ background: '#c57777ff', padding: '20px', borderRadius: '8px', minWidth: '400px', maxWidth: '80%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                 <h3 style={{ margin: 0 }}>Transaction History: {selectedDonor.name}</h3>
                 <button className="btn btn-secondary btn-sm" onClick={() => setSelectedDonor(null)}>Close</button>

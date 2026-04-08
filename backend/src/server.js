@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/ngo', require('./routes/ngoRoutes'));
 app.use('/api/donor', require('./routes/donorRoutes'));
+app.use('/api/donations', require('./routes/donationRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
