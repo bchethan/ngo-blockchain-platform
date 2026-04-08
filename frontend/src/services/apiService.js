@@ -14,6 +14,7 @@ export const adminAPI = {
   getAllNGOs: () => api.get('/admin/ngos'),
   getVerifiedNGOs: () => api.get('/admin/ngos/verified'),
   verifyNGO: (ngoAddress) => api.post('/admin/ngos/verify', { ngoAddress }),
+  approveNGO: (ngoAddress) => api.post('/admin/ngos/verify', { ngoAddress }), // Adding approveNGO over verify route
   getAllDonations: () => api.get('/admin/donations'),
 };
 

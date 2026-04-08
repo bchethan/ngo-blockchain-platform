@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ngoAPI } from '../services/apiService';
+import { ngoAPI, adminAPI } from '../services/apiService';
 import { recordExpenditure, getExpendituresByNGO } from '../services/blockchainService';
 import './NGODashboard.css';
 
