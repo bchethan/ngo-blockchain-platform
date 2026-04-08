@@ -23,9 +23,8 @@ const NGODashboard = ({ account }) => {
   const [loadingViewerDonations, setLoadingViewerDonations] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/admin/ngos/verified')
-      .then(res => res.json())
-      .then(data => setViewerNGOs(data))
+    adminAPI.getVerifiedNGOs()
+      .then(res => setViewerNGOs(res.data))
       .catch(err => console.error('Failed to load viewer NGOs:', err));
   }, []);
 
@@ -37,7 +36,7 @@ const NGODashboard = ({ account }) => {
     const fetchDonations = async () => {
       setLoadingViewerDonations(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/donations/ngo/${selectedViewerNgoId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/donations/ngo/${selectedViewerNgoId}`);
         const data = await response.json();
         setViewerDonations(data);
       } catch (error) {

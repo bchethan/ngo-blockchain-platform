@@ -29,9 +29,8 @@ const DonorDashboard = ({ account }) => {
       setDonations(donationsRes.data);
       
       // Load verified NGOs
-      const verifiedRes = await fetch('http://localhost:5000/api/admin/ngos/verified');
-      const verified = await verifiedRes.json();
-      setVerifiedNGOs(verified);
+      const verifiedRes = await adminAPI.getVerifiedNGOs();
+      setVerifiedNGOs(verifiedRes.data);
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {

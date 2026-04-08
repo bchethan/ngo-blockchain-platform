@@ -26,7 +26,7 @@ const DonatePage = ({ account }) => {
     try {
       setLoading(true);
       const [ngosRes, donorsRes] = await Promise.all([
-        fetch('http://localhost:5000/api/admin/ngos/verified').then(r => r.json()),
+        adminAPI.getVerifiedNGOs().then(r => r.data),
         donorAPI.getAllDonors().then(r => r.data)
       ]);
       setVerifiedNGOs(ngosRes);
