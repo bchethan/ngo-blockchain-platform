@@ -71,8 +71,19 @@ const getNGODonations = async (req, res) => {
   }
 };
 
+// Get all NGOs
+const getAllNGOs = async (req, res) => {
+  try {
+    const ngos = await NGO.find().sort({ createdAt: -1 });
+    res.json(ngos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   registerNGO,
   getNGOProfile,
   getNGODonations,
+  getAllNGOs,
 };
