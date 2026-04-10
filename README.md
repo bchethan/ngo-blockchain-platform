@@ -66,7 +66,7 @@ ngo-blockchain-platform/
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/bchethan/ngo-blockchain-platform
 cd ngo-blockchain-platform
 ```
 
